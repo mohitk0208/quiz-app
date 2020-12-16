@@ -1,0 +1,37 @@
+.start-btn {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: var(--light-purple);
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+    color: var(--dark-purple);
+    box-shadow: 1px 1px 5px 1px #F2E2FA , -1px -1px 5px 1px #F2E2FA ;
+    transition: color 100ms ease-in-out;
+    border: none;
+}
+
+.btn-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.start-btn span {
+    display: block;
+    font-size: 1.5rem;
+}
+
+.start-btn:hover {
+    box-shadow: none;
+    color: #F2E2FA;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
