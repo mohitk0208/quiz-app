@@ -21,7 +21,7 @@ function QuizPanel() {
 			<>
 				<div className="quiz-panel">
 					<QuestionNumber current={1} total={10} />
-					<Timer value="61" />
+					<Timer value={19} maxValue={30} />
 					<div className="question-container">
 						<div className="question">Who is the prime minister of india ?</div>
 						<div className="options-container">
