@@ -7,7 +7,7 @@ export const useIsStarted = () => useContext(IsStartedContext);
 export const useIsStartedUpdater = () => useContext(IsStartedUpdateContext);
 
 const IsStartedProvider = ({ children }) => {
-	const [isStarted, setIsStarted] = useState(false);
+	const [isStarted, setIsStarted] = useState(true);
 
 	useEffect(() => {
 		console.log(isStarted);
