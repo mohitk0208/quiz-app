@@ -2,10 +2,13 @@ import React from 'react'
 
 import "./QuestionNumber.css"
 
-function QuestionNumber() {
+function QuestionNumber(props) {
+
+    const {current,total} = props;
+
     return (
         <div className="question-number">
-            QuestionNumber
+            {`Q ${current} / ${total}`}
         </div>
     )
 }
