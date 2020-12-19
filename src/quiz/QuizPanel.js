@@ -7,7 +7,11 @@ import "./QuizPanel.css";
 function QuizPanel() {
 	const isStarted = useIsStarted();
 
-	return <div className="quiz-panel">{!isStarted && <StartPage />}</div>;
+	if (!isStarted)
+		return <div className="quiz-panel">{!isStarted && <StartPage />}</div>;
+	else {
+		return <div>Quiz started</div>
+	}
 }
 
 export default QuizPanel;
