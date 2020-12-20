@@ -1,6 +1,9 @@
 .timer {
     padding:10px;
     font-size: 2rem;
+    position: absolute;
+    top: 5%;
+    right: 5%;
 }
 
 .timer span {

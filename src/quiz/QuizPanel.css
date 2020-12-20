@@ -2,4 +2,28 @@
     width: 90%;
     height: 100%;
     background-color: var(--very-light-red);
+    position: relative;
+}
+
+.question-container {
+position: absolute;
+top: 15%;
+left: 50%;
+transform: translateX(-50%);
+text-align: center;
+}
+
+.question-container .question {
+    font-size: 2rem;
+    background-color:#c170f344 ;
+    padding: 10px 20px;
+    margin: 2rem;
+    border-radius: 3rem;
+}
+
+.question-container .options-container {
+    margin: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }

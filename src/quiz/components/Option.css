@@ -1,0 +1,11 @@
+.option {
+    margin: 7px;
+    padding: 7px 5px;
+    background-color: rgba(99, 221, 209, 0.589);
+    border-radius: 50px;
+    transition: background-color ease-in-out 100ms;
+}
+
+.option:hover {
+    background-color: turquoise;
+}

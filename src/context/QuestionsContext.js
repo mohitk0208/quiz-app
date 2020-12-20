@@ -6,8 +6,8 @@ const q = [
 		type: "multiple",
 		difficulty: "easy",
 		question:
-			"Which Shakespeare play inspired the musical &#039;West Side Story&#039;?",
-		correct_answer: "Romeo &amp; Juliet",
+			"Which Shakespeare play inspired the musical West Side Story?",
+		correct_answer: "Romeo Juliet",
 		incorrect_answers: ["Hamlet", "Macbeth", "Othello"],
 	},
 	{

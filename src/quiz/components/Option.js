@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState } from "react";
 
 import "./Option.css";
 
-function Option() {
-    return (
-        <div>
-            Option
-        </div>
-    )
+function Option({ value }) {
+	// const [optionValue, setOptionValue] = useState(value);
+
+	return <div className="option">{value}</div>;
 }
 
-export default Option
+export default Option;

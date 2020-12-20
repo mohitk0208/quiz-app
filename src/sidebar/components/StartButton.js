@@ -8,7 +8,7 @@ function StartButton() {
     const setIsStarted = useIsStartedUpdater();
     
     const startQuizHandler = () => {
-        setIsStarted(prev => !prev)
+        setIsStarted(prev => true)
     }
 
 	return (
