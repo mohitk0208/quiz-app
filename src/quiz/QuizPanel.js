@@ -10,14 +10,21 @@ import Timer from "./components/Timer";
 import Option from "./components/Option";
 import Next from "./components/Next";
 import QuitButton from "./components/QuitButton";
+import { useTimer } from "../hooks/timer-hook";
 
-const MAX_QUESTION_ANSWERING_TIME = 3;
+const MAX_QUESTION_ANSWERING_TIME = 10;
 
 function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
 
-	const [timerValue, setTimerValue] = useState(MAX_QUESTION_ANSWERING_TIME);
+	// const [timerValue, setTimerValue] = useState(MAX_QUESTION_ANSWERING_TIME);
+
+	const { timerValue,stopped, start, pause,resume, reset } = useTimer(
+		MAX_QUESTION_ANSWERING_TIME
+	);
+
+
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 
 	const shuffledOptions = useMemo(() => {
@@ -33,22 +40,39 @@ function QuizPanel() {
 
 	useEffect(() => {
 		if (isStarted) {
-			const timerCounter = setTimeout(() => {
-				setTimerValue((prev) => prev - 1);
-			}, 1000);
-
-			if (timerValue === 0) {
-				clearTimeout(timerCounter);
-				if (currentQuestion < questions.length - 1) {
-					console.log("current question", currentQuestion);
-					setCurrentQuestion((prev) => prev + 1);
-					setTimerValue(MAX_QUESTION_ANSWERING_TIME);
-				}
-			}
-
-			return () => clearTimeout(timerCounter);
+			start();
 		}
-	}, [timerValue, isStarted, currentQuestion, questions]);
+	}, [isStarted, start]);
+
+	useEffect(() => {
+		if (timerValue === 0) {
+			if (currentQuestion < questions.length - 1) {
+				console.log("current question", currentQuestion);
+				setCurrentQuestion((prev) => prev + 1);
+				reset();
+				start();
+			}
+		}
+	}, [timerValue, currentQuestion, questions, reset, start]);
+
+	// useEffect(() => {
+	// 	if (isStarted) {
+	// 		const timerCounter = setTimeout(() => {
+	// 			setTimerValue((prev) => prev - 1);
+	// 		}, 1000);
+
+	// 		if (timerValue === 0) {
+	// 			clearTimeout(timerCounter);
+	// 			if (currentQuestion < questions.length - 1) {
+	// 				console.log("current question", currentQuestion);
+	// 				setCurrentQuestion((prev) => prev + 1);
+	// 				setTimerValue(MAX_QUESTION_ANSWERING_TIME);
+	// 			}
+	// 		}
+
+	// 		return () => clearTimeout(timerCounter);
+	// 	}
+	// }, [timerValue, isStarted, currentQuestion, questions]);
 
 	if (!isStarted)
 		return (
@@ -65,7 +89,12 @@ function QuizPanel() {
 						total={questions.length}
 					/>
 
-					<QuitButton />
+					<QuitButton
+						onClick={() => {
+							if (stopped) resume();
+							else pause();
+						}}
+					/>
 
 					<Timer value={timerValue} maxValue={MAX_QUESTION_ANSWERING_TIME} />
 
