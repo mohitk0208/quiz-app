@@ -4,7 +4,7 @@ import Sidebar from "./sidebar/Sidebar";
 import QuizPanel from "./quiz/QuizPanel";
 import QuestionsProvider from "./context/QuestionsContext";
 import CurrentQuestionProvider from "./context/CurrentQuestionContext";
-import ScoreProvider from "./context/ScoreContext";
+import ResponseStatusProvider from "./context/ResponseStatusContext";
 
 function App() {
 	return (
@@ -13,9 +13,9 @@ function App() {
 				<IsStartedProvider>
 					<Sidebar />
 					<CurrentQuestionProvider>
-						<ScoreProvider>
+						<ResponseStatusProvider>
 							<QuizPanel />
-						</ScoreProvider>
+						</ResponseStatusProvider>
 					</CurrentQuestionProvider>
 				</IsStartedProvider>
 			</QuestionsProvider>

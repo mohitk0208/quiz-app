@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useScoreUpdater } from "../../context/ScoreContext";
+import { useResponseStatusUpdater } from "../../context/ResponseStatusContext";
 
 import "./Option.css";
 
@@ -7,7 +7,7 @@ function Option({ value, isCorrect, optionSelected, onClick, disabled }) {
 	// const [optionValue, setOptionValue] = useState(value);
 
 	const [styleClass, setStyleClass] = useState("");
-	const setScore = useScoreUpdater();
+	const setResponseStatus = useResponseStatusUpdater();
 
 	useEffect(() => {
 		if (!optionSelected) setStyleClass("");
@@ -23,8 +23,15 @@ function Option({ value, isCorrect, optionSelected, onClick, disabled }) {
 
 		if (isCorrect) {
 			setStyleClass("correct");
-			setScore((prev) => prev + 2);
-		} else setStyleClass("incorrect");
+			setResponseStatus((prev) => {
+				return { ...prev, correct: prev.correct + 1 };
+			});
+		} else {
+			setStyleClass("incorrect");
+			setResponseStatus((prev) => {
+				return { ...prev, incorrect: prev.incorrect + 1 };
+			});
+		}
 
 		onClick();
 	};

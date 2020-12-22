@@ -43,5 +43,5 @@ export const useQuizQuestion = () => {
 
     const resetCurrentQuestion = useCallback(() => setCurrentQuestion(0),[setCurrentQuestion]);
 
-	return { presentQuestion, shuffledOptions, nextQuestion, resetCurrentQuestion };
+	return { presentQuestion, shuffledOptions,noOfQuestions, nextQuestion, resetCurrentQuestion };
 };

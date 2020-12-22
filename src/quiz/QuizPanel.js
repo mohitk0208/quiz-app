@@ -12,7 +12,8 @@ import QuitButton from "./components/QuitButton";
 import { useTimer } from "../hooks/timer-hook";
 import { useCurrentQuestion } from "../context/CurrentQuestionContext";
 import { useQuizQuestion } from "../hooks/quiz-question-hook";
-import { useScore } from "../context/ScoreContext";
+import ScoreBoard from "./components/ScoreBoard";
+import { useResponseStatus } from "../context/ResponseStatusContext";
 
 const MAX_QUESTION_ANSWERING_TIME = 10;
 
@@ -20,13 +21,20 @@ function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
 	const currentQuestion = useCurrentQuestion();
-	const score = useScore();
+	const responseStatus = useResponseStatus();
+
+	const [isQuizEnd, setIsQuizEnd] = useState(false);
 
 	const { timerValue, stopped, start, pause, resume, resetTimer } = useTimer(
 		MAX_QUESTION_ANSWERING_TIME
 	);
 
-	const { presentQuestion, shuffledOptions, nextQuestion } = useQuizQuestion();
+	const {
+		presentQuestion,
+		shuffledOptions,
+		noOfQuestions,
+		nextQuestion,
+	} = useQuizQuestion();
 	const [timeoutOrOptionSelected, setTimeoutOrOptionSelected] = useState(false);
 
 	const [isNextActive, setIsNextActive] = useState(false);
@@ -48,6 +56,17 @@ function QuizPanel() {
 		}
 	}, [currentQuestion, nextQuestion, resetTimer, start, timerValue]);
 
+	useEffect(() => {
+		if (currentQuestion === noOfQuestions - 1 && timeoutOrOptionSelected) {
+			console.log("Quiz ends");
+			const timer = setTimeout(() => {
+				setIsQuizEnd(true);
+			}, 2000);
+
+			return () => clearTimeout(timer);
+		}
+	}, [currentQuestion, timeoutOrOptionSelected, noOfQuestions]);
+
 	const optionSelectHandler = () => {
 		setTimeoutOrOptionSelected(true);
 		pause();
@@ -68,7 +87,7 @@ function QuizPanel() {
 				<StartPage />
 			</div>
 		);
-	else {
+	else if (!isQuizEnd) {
 		return (
 			<>
 				<div className="quiz-panel">
@@ -84,7 +103,7 @@ function QuizPanel() {
 						}}
 					/>
 
-					<div className="score">score: {score}</div>
+					<div className="score">score: {responseStatus.correct * 2}</div>
 
 					<Timer value={timerValue} maxValue={MAX_QUESTION_ANSWERING_TIME} />
 
@@ -114,6 +133,12 @@ function QuizPanel() {
 					/>
 				</div>
 			</>
+		);
+	} else {
+		return (
+			<div className="quiz-panel">
+				<ScoreBoard noOfQuestions={noOfQuestions} />
+			</div>
 		);
 	}
 }
