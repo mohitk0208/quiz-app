@@ -11,7 +11,7 @@
 }
 
 
-.next-btn:hover {
+.next-btn:hover:enabled {
     background-color: var(--purple);
     color: white;
 }
