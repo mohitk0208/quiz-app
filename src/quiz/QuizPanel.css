@@ -14,11 +14,12 @@ text-align: center;
 }
 
 .question-container .question {
-    font-size: 2rem;
+    font-size: 1.6rem;
     background-color:#c170f344 ;
-    padding: 10px 20px;
+    padding: 20px 20px;
     margin: 2rem;
     border-radius: 3rem;
+    line-height: 2.2rem;
 }
 
 .question-container .options-container {

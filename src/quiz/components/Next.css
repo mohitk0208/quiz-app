@@ -1,0 +1,17 @@
+.next-btn {
+    position: absolute;
+    bottom: 15%;
+    right: 20%;
+    padding: 10px;
+    text-transform: uppercase;
+
+    background-color: var(--light-purple);
+    border-radius: 2px;
+    font-size: 1.2rem;
+}
+
+
+.next-btn:hover {
+    background-color: var(--purple);
+    color: white;
+}

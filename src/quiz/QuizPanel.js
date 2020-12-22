@@ -7,6 +7,8 @@ import Timer from "./components/Timer";
 import Option from "./components/Option";
 
 import "./QuizPanel.css";
+import Next from "./components/Next";
+import QuitButton from "./components/QuitButton";
 
 const MAX_QUESTION_ANSWERING_TIME = 3;
 
@@ -64,6 +66,8 @@ function QuizPanel() {
 						total={questions.length}
 					/>
 
+					<QuitButton />
+
 					<Timer value={timerValue} maxValue={MAX_QUESTION_ANSWERING_TIME} />
 
 					<div className="question-container">
@@ -76,6 +80,7 @@ function QuizPanel() {
 							})}
 						</div>
 					</div>
+					<Next />
 				</div>
 			</>
 		);
