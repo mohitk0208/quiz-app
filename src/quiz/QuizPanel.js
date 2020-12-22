@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
+import "./QuizPanel.css";
+
 import { useIsStarted } from "../context/IsStartedContext";
 import { useQuestions } from "../context/QuestionsContext";
+import { shuffle } from "../functions";
 import QuestionNumber from "./components/QuestionNumber";
 import StartPage from "./components/StartPage";
 import Timer from "./components/Timer";
 import Option from "./components/Option";
-
-import "./QuizPanel.css";
 import Next from "./components/Next";
 import QuitButton from "./components/QuitButton";
 
@@ -20,14 +21,13 @@ function QuizPanel() {
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 
 	const shuffledOptions = useMemo(() => {
-
 		console.log(currentQuestion);
 
 		return shuffle([
 			...questions[currentQuestion].incorrect_answers,
 			questions[currentQuestion].correct_answer,
 		]);
-	}, [currentQuestion,questions]);
+	}, [currentQuestion, questions]);
 
 	console.log("component refreshed");
 
@@ -39,7 +39,7 @@ function QuizPanel() {
 
 			if (timerValue === 0) {
 				clearTimeout(timerCounter);
-				if (currentQuestion < (questions.length - 1)) {
+				if (currentQuestion < questions.length - 1) {
 					console.log("current question", currentQuestion);
 					setCurrentQuestion((prev) => prev + 1);
 					setTimerValue(MAX_QUESTION_ANSWERING_TIME);
@@ -48,7 +48,6 @@ function QuizPanel() {
 
 			return () => clearTimeout(timerCounter);
 		}
-		
 	}, [timerValue, isStarted, currentQuestion, questions]);
 
 	if (!isStarted)
@@ -88,23 +87,3 @@ function QuizPanel() {
 }
 
 export default QuizPanel;
-
-const shuffle = (array) => {
-	let currentIndex = array.length,
-		temporaryValue,
-		randomIndex;
-
-	//while there are elements to shuffle
-	while (0 !== currentIndex) {
-		//pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-
-		//and swap it with current element
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-	return array;
-};
