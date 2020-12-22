@@ -41,10 +41,8 @@ function QuizPanel() {
 		if (timerValue === 0) {
 			console.log("current question", currentQuestion);
 
-			nextQuestion();
-			setTimeoutOrOptionSelected(false);
-			resetTimer();
-			start();
+			setTimeoutOrOptionSelected(true);
+			setIsNextActive(true);
 		}
 	}, [currentQuestion, nextQuestion, resetTimer, start, timerValue]);
 
