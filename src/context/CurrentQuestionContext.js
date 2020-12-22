@@ -12,9 +12,9 @@ const CurrentQuestionProvider = ({ children }) => {
 
 	return (
 		<CurrentQuestionContext.Provider value={currentQuestion}>
-			<CurrentQuestionUpdateContext value={setCurrentQuestion}>
+			<CurrentQuestionUpdateContext.Provider value={setCurrentQuestion}>
 				{children}
-			</CurrentQuestionUpdateContext>
+			</CurrentQuestionUpdateContext.Provider>
 		</CurrentQuestionContext.Provider>
 	);
 };

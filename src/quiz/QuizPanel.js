@@ -11,12 +11,15 @@ import Option from "./components/Option";
 import Next from "./components/Next";
 import QuitButton from "./components/QuitButton";
 import { useTimer } from "../hooks/timer-hook";
+import { useCurrentQuestion, useCurrentQuestionUpdater } from "../context/CurrentQuestionContext";
 
 const MAX_QUESTION_ANSWERING_TIME = 10;
 
 function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
+	const currentQuestion = useCurrentQuestion();
+	const setCurrentQuestion = useCurrentQuestionUpdater();
 
 
 	const { timerValue,stopped, start, pause,resume, reset } = useTimer(
@@ -24,9 +27,7 @@ function QuizPanel() {
 	);
 
 
-	const [currentQuestion, setCurrentQuestion] = useState(0);
 
-	
 
 	const shuffledOptions = useMemo(() => {
 		console.log(currentQuestion);
@@ -66,7 +67,7 @@ function QuizPanel() {
 				start();
 			}
 		}
-	}, [timerValue, currentQuestion, questions, reset, start]);
+	}, [timerValue, currentQuestion, questions, reset, start,setCurrentQuestion]);
 
 
 
