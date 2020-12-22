@@ -12,6 +12,7 @@ import QuitButton from "./components/QuitButton";
 import { useTimer } from "../hooks/timer-hook";
 import { useCurrentQuestion } from "../context/CurrentQuestionContext";
 import { useQuizQuestion } from "../hooks/quiz-question-hook";
+import { useScore } from "../context/ScoreContext";
 
 const MAX_QUESTION_ANSWERING_TIME = 10;
 
@@ -19,6 +20,7 @@ function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
 	const currentQuestion = useCurrentQuestion();
+	const score = useScore();
 
 	const { timerValue, stopped, start, pause, resume, resetTimer } = useTimer(
 		MAX_QUESTION_ANSWERING_TIME
@@ -81,6 +83,8 @@ function QuizPanel() {
 							else pause();
 						}}
 					/>
+
+					<div className="score">score: {score}</div>
 
 					<Timer value={timerValue} maxValue={MAX_QUESTION_ANSWERING_TIME} />
 

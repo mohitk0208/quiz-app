@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useScoreUpdater } from "../../context/ScoreContext";
 
 import "./Option.css";
 
@@ -6,6 +7,7 @@ function Option({ value, isCorrect, optionSelected, onClick, disabled }) {
 	// const [optionValue, setOptionValue] = useState(value);
 
 	const [styleClass, setStyleClass] = useState("");
+	const setScore = useScoreUpdater();
 
 	useEffect(() => {
 		if (!optionSelected) setStyleClass("");
@@ -19,8 +21,10 @@ function Option({ value, isCorrect, optionSelected, onClick, disabled }) {
 		console.log("option clicked");
 		console.log("iscorrect", isCorrect);
 
-		if (isCorrect) setStyleClass("correct");
-		else setStyleClass("incorrect");
+		if (isCorrect) {
+			setStyleClass("correct");
+			setScore((prev) => prev + 2);
+		} else setStyleClass("incorrect");
 
 		onClick();
 	};

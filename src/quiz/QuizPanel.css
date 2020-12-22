@@ -5,6 +5,19 @@
     position: relative;
 }
 
+.score {
+    position: absolute;
+    top: 3%;
+    right: 5%;
+    font-size: 2rem;
+    font-weight: 700;
+    background-color: rgba(127, 228, 127, 0.329);
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(4, 105, 4);
+    text-transform: uppercase;
+}
+
 .question-container {
 position: absolute;
 top: 15%;
