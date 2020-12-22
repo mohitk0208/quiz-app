@@ -5,7 +5,7 @@ import "./Next.css";
 
 const Next = ({active}) => {
 
-    const {timerValue,start,stopped,pause,resume,reset} = useTimer(5);
+    const {timerValue,start,stopped,pause,resume,resetTimer} = useTimer(5);
 
     useEffect(() => {
         if(active) start();

@@ -38,7 +38,10 @@ export const useQuizQuestion = () => {
 
 			setCurrentQuestion((prev) => prev + 1);
 		}
-	}, [noOfQuestions, currentQuestion, setCurrentQuestion]);
+    }, [noOfQuestions, currentQuestion, setCurrentQuestion]);
+    
 
-	return { presentQuestion, shuffledOptions, nextQuestion };
+    const resetCurrentQuestion = useCallback(() => setCurrentQuestion(0),[setCurrentQuestion]);
+
+	return { presentQuestion, shuffledOptions, nextQuestion, resetCurrentQuestion };
 };

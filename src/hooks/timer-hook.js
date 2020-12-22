@@ -27,11 +27,11 @@ export const useTimer = (initialValue) => {
 		setStopped(false);
 	}, []);
 
-	const reset = useCallback(() => {
+	const resetTimer = useCallback(() => {
 		setTimerValue(initialValue);
 		setIsStart(false);
 		setStopped(false);
 	}, [initialValue]);
 
-	return { timerValue,stopped, start, pause, resume, reset };
+	return { timerValue,stopped, start, pause, resume, resetTimer };
 };
