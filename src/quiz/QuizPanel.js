@@ -25,8 +25,9 @@ function QuizPanel() {
 	);
 
 	const { presentQuestion, shuffledOptions, nextQuestion } = useQuizQuestion();
-
 	const [timeoutOrOptionSelected, setTimeoutOrOptionSelected] = useState(false);
+
+	const [isNextActive, setIsNextActive] = useState(false);
 
 	console.log("component refreshed");
 
@@ -49,6 +50,16 @@ function QuizPanel() {
 
 	const optionSelectHandler = () => {
 		setTimeoutOrOptionSelected(true);
+		pause();
+		setIsNextActive(true);
+	};
+
+	const nextButtonClickHandler = () => {
+		nextQuestion();
+		setIsNextActive(false);
+		setTimeoutOrOptionSelected(false);
+		resetTimer();
+		start();
 	};
 
 	if (!isStarted)
@@ -94,7 +105,11 @@ function QuizPanel() {
 							})}
 						</div>
 					</div>
-					<Next />
+					<Next
+						active={isNextActive}
+						onClick={nextButtonClickHandler}
+						nextQuestion={nextButtonClickHandler}
+					/>
 				</div>
 			</>
 		);
