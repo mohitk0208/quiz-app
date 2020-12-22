@@ -18,7 +18,6 @@ function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
 
-	// const [timerValue, setTimerValue] = useState(MAX_QUESTION_ANSWERING_TIME);
 
 	const { timerValue,stopped, start, pause,resume, reset } = useTimer(
 		MAX_QUESTION_ANSWERING_TIME
@@ -26,6 +25,8 @@ function QuizPanel() {
 
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
+
+	
 
 	const shuffledOptions = useMemo(() => {
 		console.log(currentQuestion);
@@ -38,11 +39,23 @@ function QuizPanel() {
 
 	console.log("component refreshed");
 
+
+
+
+
+
 	useEffect(() => {
 		if (isStarted) {
 			start();
 		}
 	}, [isStarted, start]);
+
+
+
+
+
+
+
 
 	useEffect(() => {
 		if (timerValue === 0) {
@@ -55,24 +68,10 @@ function QuizPanel() {
 		}
 	}, [timerValue, currentQuestion, questions, reset, start]);
 
-	// useEffect(() => {
-	// 	if (isStarted) {
-	// 		const timerCounter = setTimeout(() => {
-	// 			setTimerValue((prev) => prev - 1);
-	// 		}, 1000);
 
-	// 		if (timerValue === 0) {
-	// 			clearTimeout(timerCounter);
-	// 			if (currentQuestion < questions.length - 1) {
-	// 				console.log("current question", currentQuestion);
-	// 				setCurrentQuestion((prev) => prev + 1);
-	// 				setTimerValue(MAX_QUESTION_ANSWERING_TIME);
-	// 			}
-	// 		}
 
-	// 		return () => clearTimeout(timerCounter);
-	// 	}
-	// }, [timerValue, isStarted, currentQuestion, questions]);
+
+
 
 	if (!isStarted)
 		return (
