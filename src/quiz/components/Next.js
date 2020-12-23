@@ -4,7 +4,7 @@ import { useTimer } from "../../hooks/timer-hook";
 import "./Next.css";
 
 const Next = ({ active, onClick, nextQuestion }) => {
-	const { timerValue, start, stopped, pause, resume, resetTimer } = useTimer(5);
+	const { timerValue, start, resetTimer } = useTimer(5);
 
 	useEffect(() => {
 		if (active) start();

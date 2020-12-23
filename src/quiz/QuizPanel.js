@@ -59,6 +59,7 @@ function QuizPanel() {
 	useEffect(() => {
 		if (currentQuestion === noOfQuestions - 1 && timeoutOrOptionSelected) {
 			console.log("Quiz ends");
+			setIsNextActive(false);
 			const timer = setTimeout(() => {
 				setIsQuizEnd(true);
 			}, 2000);

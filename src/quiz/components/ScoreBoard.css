@@ -1,7 +1,48 @@
 .score-board {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	transform: translate(-50%, -50%);
     text-align: center;
+    background-color: rgba(230, 174, 230, 0.144);
+    padding: 10px 40px;
+}
+
+.score-board h1 {
+	font-size: 3rem;
+	line-height: 3.5rem;
+    padding: 10px;
+    color: var(--purple);
+    letter-spacing: 2px;
+}
+
+.score-board .summary {
+	font-size: 1.5rem;
+}
+
+.score-board .summary > p {
+    padding: 5px;
+    font-weight: 600;
+}
+
+.score-board .summary .incorrect-answers {
+    color: brown;
+}
+.score-board .summary .correct-answers {
+    color: green;
+}
+.score-board .summary .not-answered-answers {
+    color: red;
+}
+
+.score-board h2 {
+    font-size: 2rem;
+    padding: 10px;
+    padding-top: 20px;
+    color: rgba(13, 133, 13, 0.829);
+}
+
+.score-board-score {
+    font-size: 7rem;
+    color: green;
 }
