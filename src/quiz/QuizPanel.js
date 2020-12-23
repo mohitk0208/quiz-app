@@ -1,54 +1,86 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./QuizPanel.css";
 
 import { useIsStarted } from "../context/IsStartedContext";
 import { useQuestions } from "../context/QuestionsContext";
-import { shuffle } from "../functions";
 import QuestionNumber from "./components/QuestionNumber";
 import StartPage from "./components/StartPage";
 import Timer from "./components/Timer";
 import Option from "./components/Option";
 import Next from "./components/Next";
 import QuitButton from "./components/QuitButton";
+import { useTimer } from "../hooks/timer-hook";
+import { useCurrentQuestion } from "../context/CurrentQuestionContext";
+import { useQuizQuestion } from "../hooks/quiz-question-hook";
+import ScoreBoard from "./components/ScoreBoard";
+import { useResponseStatus } from "../context/ResponseStatusContext";
 
-const MAX_QUESTION_ANSWERING_TIME = 3;
+const MAX_QUESTION_ANSWERING_TIME = 10;
 
 function QuizPanel() {
 	const isStarted = useIsStarted();
 	const questions = useQuestions();
+	const currentQuestion = useCurrentQuestion();
+	const responseStatus = useResponseStatus();
 
-	const [timerValue, setTimerValue] = useState(MAX_QUESTION_ANSWERING_TIME);
-	const [currentQuestion, setCurrentQuestion] = useState(0);
+	const [isQuizEnd, setIsQuizEnd] = useState(false);
 
-	const shuffledOptions = useMemo(() => {
-		console.log(currentQuestion);
+	const { timerValue, stopped, start, pause, resume, resetTimer } = useTimer(
+		MAX_QUESTION_ANSWERING_TIME
+	);
 
-		return shuffle([
-			...questions[currentQuestion].incorrect_answers,
-			questions[currentQuestion].correct_answer,
-		]);
-	}, [currentQuestion, questions]);
+	const {
+		presentQuestion,
+		shuffledOptions,
+		noOfQuestions,
+		nextQuestion,
+	} = useQuizQuestion();
+	const [timeoutOrOptionSelected, setTimeoutOrOptionSelected] = useState(false);
+
+	const [isNextActive, setIsNextActive] = useState(false);
 
 	console.log("component refreshed");
 
 	useEffect(() => {
 		if (isStarted) {
-			const timerCounter = setTimeout(() => {
-				setTimerValue((prev) => prev - 1);
-			}, 1000);
-
-			if (timerValue === 0) {
-				clearTimeout(timerCounter);
-				if (currentQuestion < questions.length - 1) {
-					console.log("current question", currentQuestion);
-					setCurrentQuestion((prev) => prev + 1);
-					setTimerValue(MAX_QUESTION_ANSWERING_TIME);
-				}
-			}
-
-			return () => clearTimeout(timerCounter);
+			start();
 		}
-	}, [timerValue, isStarted, currentQuestion, questions]);
+	}, [isStarted, start]);
+
+	useEffect(() => {
+		if (timerValue === 0) {
+			console.log("current question", currentQuestion);
+
+			setTimeoutOrOptionSelected(true);
+			setIsNextActive(true);
+		}
+	}, [currentQuestion, nextQuestion, resetTimer, start, timerValue]);
+
+	useEffect(() => {
+		if (currentQuestion === noOfQuestions - 1 && timeoutOrOptionSelected) {
+			console.log("Quiz ends");
+			setIsNextActive(false);
+			const timer = setTimeout(() => {
+				setIsQuizEnd(true);
+			}, 2000);
+
+			return () => clearTimeout(timer);
+		}
+	}, [currentQuestion, timeoutOrOptionSelected, noOfQuestions]);
+
+	const optionSelectHandler = () => {
+		setTimeoutOrOptionSelected(true);
+		pause();
+		setIsNextActive(true);
+	};
+
+	const nextButtonClickHandler = () => {
+		nextQuestion();
+		setIsNextActive(false);
+		setTimeoutOrOptionSelected(false);
+		resetTimer();
+		start();
+	};
 
 	if (!isStarted)
 		return (
@@ -56,7 +88,7 @@ function QuizPanel() {
 				<StartPage />
 			</div>
 		);
-	else {
+	else if (!isQuizEnd) {
 		return (
 			<>
 				<div className="quiz-panel">
@@ -65,23 +97,49 @@ function QuizPanel() {
 						total={questions.length}
 					/>
 
-					<QuitButton />
+					<QuitButton
+						onClick={() => {
+							if (stopped) resume();
+							else pause();
+						}}
+					/>
+
+					<div className="score">score: {responseStatus.correct * 2}</div>
 
 					<Timer value={timerValue} maxValue={MAX_QUESTION_ANSWERING_TIME} />
 
 					<div className="question-container">
-						<div className="question">
-							{questions[currentQuestion].question}
-						</div>
+						<div className="question">{presentQuestion.question}</div>
 						<div className="options-container">
 							{shuffledOptions.map((option, index) => {
-								return <Option key={index} value={option} />;
+								const isCorrect = option === presentQuestion.correct_answer;
+
+								return (
+									<Option
+										key={index}
+										value={option}
+										isCorrect={isCorrect}
+										optionSelected={timeoutOrOptionSelected}
+										onClick={optionSelectHandler}
+										disabled={timeoutOrOptionSelected}
+									/>
+								);
 							})}
 						</div>
 					</div>
-					<Next />
+					<Next
+						active={isNextActive}
+						onClick={nextButtonClickHandler}
+						nextQuestion={nextButtonClickHandler}
+					/>
 				</div>
 			</>
+		);
+	} else {
+		return (
+			<div className="quiz-panel">
+				<ScoreBoard noOfQuestions={noOfQuestions} />
+			</div>
 		);
 	}
 }

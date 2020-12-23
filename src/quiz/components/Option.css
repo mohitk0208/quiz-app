@@ -4,8 +4,22 @@
     background-color: rgba(99, 221, 209, 0.589);
     border-radius: 50px;
     transition: background-color ease-in-out 100ms;
+    border: none;
+
 }
 
-.option:hover {
+.option:hover:enabled {
     background-color: turquoise;
+}
+
+.option:focus {
+    outline: none;
+}
+
+.correct {
+    background-color: rgba(0, 128, 0, 0.589);
+}
+
+.incorrect {
+    background-color: rgba(255, 0, 0, 0.589);
 }
