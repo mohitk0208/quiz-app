@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./QuizPanel.css";
 
 import { useIsStarted } from "../context/IsStartedContext";
@@ -74,13 +74,13 @@ function QuizPanel() {
 		setIsNextActive(true);
 	};
 
-	const nextButtonClickHandler = () => {
+	const nextButtonClickHandler = useCallback(() => {
 		nextQuestion();
 		setIsNextActive(false);
 		setTimeoutOrOptionSelected(false);
 		resetTimer();
 		start();
-	};
+	},[nextQuestion,start,resetTimer]);
 
 	if (!isStarted)
 		return (
