@@ -46,3 +46,26 @@
     font-size: 7rem;
     color: green;
 }
+
+.score-board-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.score-board-btn-container>button{
+    width: 45%;
+    padding: 8px;
+    border: 2px solid var(--purple);
+    background-color: var(--very-light-purple);
+    transition: all 200ms ease-in-out;
+    font-size: 1.1rem;
+    color: var(--dark-purple);
+    border-radius: 2px;
+}
+
+.score-board-btn-container > button:hover {
+    background-color: var(--light-purple);
+    color: white;
+    font-weight: 600;
+}

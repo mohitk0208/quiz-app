@@ -3,7 +3,7 @@ import { useResponseStatus } from "../../context/ResponseStatusContext";
 
 import "./ScoreBoard.css";
 
-const ScoreBoard = ({ noOfQuestions }) => {
+const ScoreBoard = ({ noOfQuestions,onExit,onReplay }) => {
 	const { correct, incorrect } = useResponseStatus();
 
 	return (
@@ -17,6 +17,10 @@ const ScoreBoard = ({ noOfQuestions }) => {
 				</div>
 				<h2>Score</h2>
 				<p className="score-board-score">{correct * 2}</p>
+				<div className="score-board-btn-container">
+					<button className="exit-quiz" onClick={onExit}>EXIT</button>
+					<button className="replay-quiz" onClick={onReplay}>REPLAY</button>
+				</div>
 			</div>
 		</>
 	);

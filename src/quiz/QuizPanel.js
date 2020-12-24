@@ -1,27 +1,32 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./QuizPanel.css";
 
-import { useIsStarted } from "../context/IsStartedContext";
+import { useIsStarted, useIsStartedUpdater } from "../context/IsStartedContext";
 import { useQuestions } from "../context/QuestionsContext";
 import QuestionNumber from "./components/QuestionNumber";
 import StartPage from "./components/StartPage";
 import Timer from "./components/Timer";
 import Option from "./components/Option";
-import Next from "./components/Next";
+import Next from "./components/buttons/Next";
 import QuitButton from "./components/QuitButton";
 import { useTimer } from "../hooks/timer-hook";
 import { useCurrentQuestion } from "../context/CurrentQuestionContext";
 import { useQuizQuestion } from "../hooks/quiz-question-hook";
 import ScoreBoard from "./components/ScoreBoard";
-import { useResponseStatus } from "../context/ResponseStatusContext";
+import {
+	useResponseStatus,
+	useResponseStatusUpdater,
+} from "../context/ResponseStatusContext";
 
 const MAX_QUESTION_ANSWERING_TIME = 10;
 
 function QuizPanel() {
 	const isStarted = useIsStarted();
+	const setIsStarted = useIsStartedUpdater();
 	const questions = useQuestions();
 	const currentQuestion = useCurrentQuestion();
 	const responseStatus = useResponseStatus();
+	const setResponseStatus = useResponseStatusUpdater();
 
 	const [isQuizEnd, setIsQuizEnd] = useState(false);
 
@@ -34,6 +39,7 @@ function QuizPanel() {
 		shuffledOptions,
 		noOfQuestions,
 		nextQuestion,
+		resetCurrentQuestion,
 	} = useQuizQuestion();
 	const [timeoutOrOptionSelected, setTimeoutOrOptionSelected] = useState(false);
 
@@ -80,8 +86,22 @@ function QuizPanel() {
 		setTimeoutOrOptionSelected(false);
 		resetTimer();
 		start();
-	},[nextQuestion,start,resetTimer]);
+	}, [nextQuestion, start, resetTimer]);
 
+	const exitHandler = useCallback(() => {
+		resetTimer();
+		setTimeoutOrOptionSelected(false);
+		setIsNextActive(false);
+		resetCurrentQuestion();
+		setResponseStatus({
+			correct: 0,
+			incorrect: 0,
+		});
+		setIsQuizEnd(false);
+		setIsStarted(false);
+	}, [resetCurrentQuestion, resetTimer, setIsStarted,setResponseStatus]);
+
+	const replayHandler = () => {};
 	if (!isStarted)
 		return (
 			<div className="quiz-panel">
@@ -138,7 +158,11 @@ function QuizPanel() {
 	} else {
 		return (
 			<div className="quiz-panel">
-				<ScoreBoard noOfQuestions={noOfQuestions} />
+				<ScoreBoard
+					noOfQuestions={noOfQuestions}
+					onExit={exitHandler}
+					onReplay={replayHandler}
+				/>
 			</div>
 		);
 	}
